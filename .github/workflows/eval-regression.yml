@@ -21,7 +21,7 @@ jobs:
           python-version: "3.11"
       - name: Install
         run: |
-          pip install numpy scipy duckdb jinja2 pyyaml
+          pip install numpy scipy duckdb jinja2 pyyaml scikit-learn
           pip install -e .
       - name: Run benchmark gate
         run: python scripts/eval_gate.py
