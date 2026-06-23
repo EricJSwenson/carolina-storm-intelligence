@@ -11,7 +11,7 @@
 <style>
   :root{
     --bg:#07111f; --panel:#0e1d30; --panel2:#10233a; --line:#1c3047;
-    --text:#e6eef7; --muted:#7c94ad; --signal:#f5b14c;
+    --text:#e6eef7; --muted:#7c94ad; --signal:#ef4444;
     --c0:#5b8fb0; --c1:#22d3ee; --c2:#fde047; --c3:#fb923c; --c4:#f43f5e; --c5:#c026d3;
   }
   *{box-sizing:border-box}
@@ -23,7 +23,8 @@
   header.bar{display:flex;align-items:baseline;justify-content:space-between;
     border-bottom:1px solid var(--line);padding:20px 0 16px;flex-wrap:wrap;gap:10px}
   .brand{font-family:'Saira Condensed',sans-serif;font-weight:700;letter-spacing:.04em;
-    font-size:30px;text-transform:uppercase}
+    font-size:30px;text-transform:uppercase;display:flex;align-items:center;gap:12px}
+  .flag{flex:none;border-radius:4px;box-shadow:0 0 14px rgba(239,68,68,0.45)}
   .brand b{color:var(--signal)}
   .status{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)}
   .status .dot{display:inline-block;width:8px;height:8px;border-radius:50%;
@@ -38,12 +39,18 @@
     border:1px solid var(--line);border-radius:12px}
   #map{height:480px;width:100%}
   .maprow{display:grid;grid-template-columns:1fr;gap:0}
-  .chips{display:flex;gap:8px;flex-wrap:wrap;padding:14px 16px;border-top:1px solid var(--line)}
-  .chip{font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer;
-    border:1px solid var(--line);background:#0b1a2c;color:var(--text);
-    padding:7px 12px;border-radius:999px;transition:.15s}
-  .chip:hover{border-color:var(--signal)}
-  .chip.active{background:var(--signal);color:#10233a;border-color:var(--signal);font-weight:500}
+  .controls{display:flex;align-items:center;gap:12px;padding:14px 16px;border-top:1px solid var(--line);flex-wrap:wrap}
+  .ctl-label{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;color:var(--muted)}
+  #stormSelect{font-family:'IBM Plex Mono',monospace;font-size:13px;background:#0b1a2c;
+    color:var(--text);border:1px solid var(--line);border-radius:8px;padding:8px 12px;min-width:230px;cursor:pointer}
+  #stormSelect:hover{border-color:var(--signal)}
+  .fin{width:74px;font-family:'IBM Plex Mono',monospace;font-size:12px;background:#0b1a2c;
+    color:var(--text);border:1px solid var(--line);border-radius:7px;padding:7px 9px}
+  .fin:focus,#catMin:focus{outline:none;border-color:var(--signal)}
+  #catMin{font-family:'IBM Plex Mono',monospace;font-size:12px;background:#0b1a2c;color:var(--text);
+    border:1px solid var(--line);border-radius:7px;padding:7px 9px;cursor:pointer}
+  .count{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-left:auto}
+  .dbwrap{max-height:360px;overflow:auto}
   .grid{display:grid;grid-template-columns:1.3fr 1fr;gap:18px;margin-top:18px}
   .card-h{font-family:'Saira Condensed',sans-serif;font-weight:600;letter-spacing:.03em;
     text-transform:uppercase;font-size:15px;padding:14px 16px;border-bottom:1px solid var(--line);
@@ -83,7 +90,13 @@
 <body>
 <div class="wrap">
   <header class="bar">
-    <div class="brand">Carolina <b>Storm</b> Intelligence</div>
+    <div class="brand">
+      <svg class="flag" viewBox="0 0 40 40" width="30" height="30" aria-label="storm warning flag">
+        <rect x="2" y="2" width="36" height="36" rx="3" fill="#ef4444"/>
+        <rect x="14" y="14" width="12" height="12" fill="#0a0a0a"/>
+      </svg>
+      Carolina <b>Storm</b> Intelligence
+    </div>
     <div class="status"><span class="dot"></span>SYSTEM ONLINE · SOURCE: NOAA HURDAT2 · OFFICE KMHX</div>
   </header>
 
@@ -96,7 +109,21 @@
   <div class="panel maprow">
     <div id="map"></div>
     <div class="legend" id="legend"></div>
-    <div class="chips" id="chips"></div>
+    <div class="controls">
+      <span class="ctl-label">STORM</span>
+      <select id="stormSelect"></select>
+      <span class="ctl-label">YEAR</span>
+      <input id="yearMin" type="number" class="fin" title="from year">
+      <span style="color:var(--muted)">–</span>
+      <input id="yearMax" type="number" class="fin" title="to year">
+      <span class="ctl-label">MIN CAT</span>
+      <select id="catMin">
+        <option value="0">TS+</option><option value="1">1+</option><option value="2">2+</option>
+        <option value="3">3+</option><option value="4">4+</option><option value="5">5</option>
+      </select>
+      <input id="nameSearch" class="fin" style="width:120px" placeholder="name…">
+      <span class="count" id="count"></span>
+    </div>
   </div>
 
   <div class="grid">
@@ -111,10 +138,12 @@
   </div>
 
   <div class="panel" style="margin-top:18px">
-    <div class="card-h">Storm database</div>
+    <div class="card-h">Storm database <span class="tag" id="dbcount"></span></div>
+    <div class="dbwrap">
     <table id="db"><thead><tr>
-      <th>Storm</th><th>Year</th><th>Peak wind</th><th>Min pres</th><th>NC landfall</th>
+      <th>Storm</th><th>Year</th><th>Peak wind</th><th>Peak</th><th>NC landfall</th>
     </tr></thead><tbody></tbody></table>
+    </div>
   </div>
 
   <div class="two">
@@ -150,8 +179,8 @@ DATA.storms.forEach(s=>{
   traces.push({
     type:"scattergeo", mode:"lines+markers", name:s.name,
     lon:s.track.map(t=>t.lon), lat:s.track.map(t=>t.lat),
-    line:{width:1.4,color:"rgba(230,238,247,0.35)"},
-    marker:{size:s.track.map(t=>t.landfall?13:7),
+    line:{width:1.1,color:"rgba(230,238,247,0.12)"},
+    marker:{size:s.track.map(t=>t.landfall?12:4),
       symbol:s.track.map(t=>t.landfall?"star":"circle"),
       color:s.track.map(t=>catColor(t.cat)),
       line:{width:s.track.map(t=>t.landfall?1.5:0.4),color:"#07111f"}},
@@ -193,7 +222,7 @@ function showIntensity(s){
   Plotly.newPlot("intensity",[{
     type:"scatter", mode:"lines+markers", x:s.track.map((_,i)=>i*6),
     y:s.track.map(t=>t.wind),
-    line:{color:"rgba(245,177,76,0.6)",width:2},
+    line:{color:"rgba(239,68,68,0.7)",width:2},
     marker:{size:s.track.map(t=>t.landfall?12:6),
       symbol:s.track.map(t=>t.landfall?"star":"circle"),
       color:s.track.map(t=>catColor(t.cat))},
@@ -206,30 +235,67 @@ function showIntensity(s){
   },{displayModeBar:false,responsive:true});
 }
 
-/* ---------- chips + table selection ---------- */
+/* dropdown + table render for a given (filtered) list */
+function renderList(list){
+  document.getElementById("stormSelect").innerHTML =
+    list.map(s=>`<option value="${s.id}">${s.name} (${s.year}) — ${catLabel(s.peak_cat)}</option>`).join("");
+  document.getElementById("stormSelect").onchange = e=>select(e.target.value);
+  document.querySelector("#db tbody").innerHTML = list.map(s=>`
+    <tr data-id="${s.id}">
+      <td><b>${s.name}</b></td>
+      <td class="mono">${s.year}</td>
+      <td class="mono">${s.peak_wind} kt</td>
+      <td><span class="cat" style="background:${catColor(s.peak_cat)}">${catLabel(s.peak_cat)}</span></td>
+      ${lfCell(s.landfall_cat)}</tr>`).join("");
+  document.querySelectorAll("#db tbody tr").forEach(r=>r.onclick=()=>select(r.dataset.id));
+  document.getElementById("count").textContent = `${list.length} of ${DATA.storms.length} storms · ${DATA.source}`;
+  document.getElementById("dbcount").textContent = `${list.length} storms shown`;
+}
+
+const lfCell = c => c===null
+  ? `<td class="mono" style="color:#5b7088">—</td>`
+  : `<td><span class="cat" style="background:${catColor(c)}">${catLabel(c)}</span></td>`;
+
+function applyFilters(){
+  const ymin = +document.getElementById("yearMin").value || -Infinity;
+  const ymax = +document.getElementById("yearMax").value || Infinity;
+  const cmin = +document.getElementById("catMin").value;
+  const name = document.getElementById("nameSearch").value.trim().toLowerCase();
+  const pass = s => s.year>=ymin && s.year<=ymax && s.peak_cat>=cmin
+                    && (!name || s.name.toLowerCase().includes(name));
+  Plotly.restyle("map", {visible: DATA.storms.map(s=>pass(s)?true:"legendonly")});
+  const list = DATA.storms.filter(pass);
+  renderList(list);
+  if(list.length) select(list[0].id);
+}
+
 function select(id){
   const s = DATA.storms.find(x=>x.id===id);
+  if(!s) return;
   showIntensity(s);
-  document.querySelectorAll(".chip").forEach(c=>c.classList.toggle("active",c.dataset.id===id));
-  document.querySelectorAll("#db tbody tr").forEach(r=>r.classList.toggle("sel",r.dataset.id===id));
+  document.getElementById("stormSelect").value = id;
+  document.querySelectorAll("#db tbody tr").forEach(r=>{
+    const on = r.dataset.id===id;
+    r.classList.toggle("sel",on);
+    if(on) r.scrollIntoView({block:"nearest"});
+  });
   const idx = DATA.storms.findIndex(x=>x.id===id);
-  Plotly.restyle("map",{"line.color":DATA.storms.map((_,i)=>i===idx?"rgba(245,177,76,0.8)":"rgba(230,238,247,0.12)")});
+  Plotly.restyle("map",{"line.color":DATA.storms.map((_,i)=>i===idx?"rgba(239,68,68,0.95)":"rgba(230,238,247,0.10)")});
 }
-document.getElementById("chips").innerHTML =
-  DATA.storms.map(s=>`<span class="chip" data-id="${s.id}">${s.name} ${s.year}</span>`).join("");
-document.querySelectorAll(".chip").forEach(c=>c.onclick=()=>select(c.dataset.id));
 
-/* ---------- storm table ---------- */
-document.querySelector("#db tbody").innerHTML = DATA.storms.map(s=>{
-  const c = s.landfall_cat;
-  return `<tr data-id="${s.id}">
-    <td><b>${s.name}</b></td>
-    <td class="mono">${s.year}</td>
-    <td class="mono">${s.peak_wind} kt</td>
-    <td class="mono">${s.min_pres} mb</td>
-    <td><span class="cat" style="background:${catColor(c)}">${catLabel(c)}</span></td></tr>`;
-}).join("");
-document.querySelectorAll("#db tbody tr").forEach(r=>r.onclick=()=>select(r.dataset.id));
+/* init filter defaults from data + wire events */
+(function initFilters(){
+  const years = DATA.storms.map(s=>s.year);
+  document.getElementById("yearMin").value = Math.min(...years);
+  document.getElementById("yearMax").value = Math.max(...years);
+  ["yearMin","yearMax","catMin","nameSearch"].forEach(id=>{
+    document.getElementById(id).addEventListener("input", applyFilters);
+    document.getElementById(id).addEventListener("change", applyFilters);
+  });
+})();
+
+renderList(DATA.storms);
+
 
 /* ---------- model metrics ---------- */
 const m = DATA.model;

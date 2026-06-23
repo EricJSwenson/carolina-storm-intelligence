@@ -22,6 +22,25 @@ It does three things, and the whole stack runs offline with no API keys:
 
 ---
 
+## Live data layer (Storm Center)
+
+A server-side **Storm Center** page (Streamlit) adds live, location-aware NOAA data —
+because static pages can't safely call these feeds (browser CORS), but the Python
+app can:
+
+- **Local forecast** (api.weather.gov), **tides** (NOAA CO-OPS), **buoy swell** (NDBC),
+  for an auto-detected or user-entered location.
+- **Active tropical cyclones** from the NHC, with the **official advisory bulletin**
+  shown alongside a **landfall-category model estimate** — clearly labeled *not an
+  official forecast*.
+- A **RAG search bar** answering storm questions, checked against HURDAT2 ground truth.
+
+Automated ingestion is wired via a scheduled GitHub Action
+(`.github/workflows/live-data.yml`) that snapshots active storms every 6 hours. The
+full roadmap (warehouse-backed pulls, advisory-cycle evaluation of the predictor) is
+in [docs/live_data_plan.md](docs/live_data_plan.md). The platform's purpose stays
+**evaluation against ground truth**; the live layer is additive.
+
 ## Three dashboards
 
 | View | Audience | Shows |
@@ -29,6 +48,7 @@ It does three things, and the whole stack runs offline with no API keys:
 | **Weather Intelligence** (`dashboards/weather_intelligence.html`, standalone) | recruiters / first impression | interactive Atlantic track map, landfall markers, intensity history, storm database, model card, assistant Q&A |
 | **Model Evaluation** (Streamlit) | technical interviewers | RAG leaderboard, hallucination rate, groundedness, A/B significance, **landfall-model accuracy + confusion matrix** |
 | **Experiment Tracking** (Streamlit) | ML engineers | config sweeps (chunk size, retrieval, embeddings, prompts) and metric movement across runs |
+| **Storm Center** (Streamlit) | live demo | local forecast, tides, swell, active storms + NHC bulletin + model estimate, RAG search |
 
 ```bash
 make weather      # build the Weather Intelligence page -> open the HTML
@@ -149,6 +169,7 @@ Chroma / Pinecone (pluggable).
 [Evaluation methodology](docs/evaluation_methodology.md) ·
 [Setup](docs/setup.md) ·
 [Deployment](docs/deployment.md) ·
+[Live data plan](docs/live_data_plan.md) ·
 [Interview guide](docs/interview_guide.md)
 
 ## License

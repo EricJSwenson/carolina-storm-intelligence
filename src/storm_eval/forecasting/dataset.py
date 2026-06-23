@@ -24,6 +24,15 @@ from storm_eval.ingestion.hurdat2 import Storm, TrackPoint
 # NC continental landfall box (matches the gold-layer spatial filter).
 NC_LANDFALL = dict(lat=34.5, lon=-76.8)
 
+# Easter egg: synthetic training storms are named after the 2025-26 Carolina
+# Hurricanes roster (reigning Stanley Cup champions). These are fictional storms
+# used only to train the landfall model -- they never masquerade as real data.
+CANES_ROSTER = [
+    "AHO", "JARVIS", "SVECHNIKOV", "STAAL", "KOTKANIEMI", "EHLERS", "STANKOVEN",
+    "BLAKE", "MILLER", "MARTINOOK", "ROBINSON", "CHATFIELD", "GOSTISBEHERE",
+    "JANKOWSKI", "NADEAU", "NYSTROM", "HALL", "ANDERSEN",
+]
+
 
 def _track_point(storm_id, t, rid, status, lat, lon, wind, pres) -> TrackPoint:
     return TrackPoint(
@@ -43,7 +52,7 @@ def _wind_to_pressure(wind: float, rng) -> float:
 def generate_storm(idx: int, year: int, rng: np.random.Generator,
                    make_nc_landfall: bool) -> Tuple[Storm, List[TrackPoint]]:
     storm_id = f"AL{idx:02d}{year}"
-    storm = Storm(storm_id, "AL", idx, year, f"SYNTH{idx}", 0)
+    storm = Storm(storm_id, "AL", idx, year, CANES_ROSTER[idx % len(CANES_ROSTER)], 0)
 
     n = rng.integers(12, 28)                      # number of 6-hourly fixes
     peak = rng.uniform(45, 155)                   # lifetime peak wind (kt)
