@@ -108,7 +108,13 @@ def build_data() -> dict:
          "a": "Helene (2024) made landfall in Florida's Big Bend, then tracked north through Georgia into the western Carolinas, where its rainfall produced catastrophic, historic flooding.",
          "verified": "HURDAT2 track verified ✓"},
     ]
+    # Narrative corpus for the in-browser assistant (same docs the RAG pipeline uses).
+    from storm_eval.ingestion import nws_api, storm_events
+    corpus = [{"id": e.event_id, "text": e.document} for e in storm_events.read_storm_events()]
+    corpus += [{"id": p.product_id, "text": p.document} for p in nws_api.read_text_products()]
+
     return {"storms": storms, "model": model, "qa": qa, "catColors": CAT_COLORS,
+            "corpus": corpus, "defaultLoc": {"lat": 34.72, "lon": -76.73, "label": "Morehead City, NC"},
             "source": "NOAA HURDAT2 1851–2025" if path == FULL_PATH else "bundled sample (offline)"}
 
 
