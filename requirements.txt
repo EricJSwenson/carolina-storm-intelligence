@@ -18,14 +18,12 @@ plotly>=5.20
 # Modeling (landfall-intensity model + live estimate)
 scikit-learn>=1.3
 
-# Tracking / experiment management
-mlflow>=2.12
-
 # Dev
 pytest>=8.0
 ruff>=0.4
 
-# --- optional production backends (uncomment as needed) ---
+# --- optional backends (not needed to run the app or tests) ---
+# mlflow>=2.12              # experiment tracking server (dashboard shows a static snapshot without it)
 # openai>=1.30
 # sentence-transformers>=2.7
 # chromadb>=0.5
