@@ -98,15 +98,9 @@ def build_data() -> dict:
              "macro_f1": round(report.macro_f1, 3)}
 
     qa = [
-        {"q": "What category was Florence at NC landfall?",
-         "a": "Hurricane Florence made landfall near Wrightsville Beach, NC on September 14, 2018 as a Category 1 hurricane (winds near 80 kt).",
-         "verified": "HURDAT2: Cat 1 ✓"},
-        {"q": "Did Irene make landfall in NC as a Category 3?",
-         "a": "No. Irene peaked at Category 3 near the Bahamas but came ashore near Cape Lookout, NC as a Category 1 hurricane.",
-         "verified": "HURDAT2: Cat 1 ✓ (claim corrected)"},
-        {"q": "How did Hurricane Helene affect the Carolinas?",
-         "a": "Helene (2024) made landfall in Florida's Big Bend, then tracked north through Georgia into the western Carolinas, where its rainfall produced catastrophic, historic flooding.",
-         "verified": "HURDAT2 track verified ✓"},
+        {"q": "Where did Florence make landfall in North Carolina?"},
+        {"q": "What were Dorian's threats near the Outer Banks?"},
+        {"q": "What category was Irene at Cape Lookout?"},
     ]
     # Narrative corpus for the in-browser assistant (same docs the RAG pipeline uses).
     from storm_eval.ingestion import nws_api, storm_events
@@ -123,8 +117,8 @@ HTML = Path(__file__).resolve().parents[1] / "dashboards" / "weather_intelligenc
 
 def main() -> None:
     data = build_data()
-    template = (Path(__file__).resolve().parent / "_weather_template.html").read_text()
-    HTML.write_text(template.replace("__DATA__", json.dumps(data)))
+    template = (Path(__file__).resolve().parent / "_weather_template.html").read_text(encoding="utf-8")
+    HTML.write_text(template.replace("__DATA__", json.dumps(data)), encoding="utf-8")
     print(f"wrote {HTML} ({HTML.stat().st_size // 1024} KB) with {len(data['storms'])} storms")
 
 
