@@ -23,7 +23,7 @@ from _bootstrap import ensure_data  # noqa: E402
 ensure_data()
 
 st.set_page_config(page_title="Storm Intelligence", page_icon="🌀", layout="wide")
-st.title("🌀 Storm Intelligence — Platform Console")
+st.title("Storm Intelligence — Platform Console")
 st.caption("RAG over NOAA storm narratives + a landfall-intensity model, all graded against HURDAT2 ground truth.")
 
 warehouse = ROOT / "data" / "warehouse.duckdb"

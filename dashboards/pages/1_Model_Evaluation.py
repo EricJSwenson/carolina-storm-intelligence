@@ -17,7 +17,7 @@ ensure_data()
 WAREHOUSE = ROOT / "data" / "warehouse.duckdb"
 
 st.set_page_config(page_title="Model Evaluation", page_icon="📊", layout="wide")
-st.title("📊 Model Evaluation")
+st.title("Model Evaluation")
 
 if not WAREHOUSE.exists():
     st.warning("Run `make demo` first.")

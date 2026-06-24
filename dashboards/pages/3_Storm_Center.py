@@ -20,7 +20,7 @@ from _bootstrap import ensure_data  # noqa: E402
 from storm_eval.live import feeds  # noqa: E402
 
 st.set_page_config(page_title="Storm Center", page_icon="🛰️", layout="wide")
-st.title("🛰️ Storm Center")
+st.title("Storm Center")
 st.caption("Live NOAA/NWS conditions and the storm-narrative assistant. "
            "Live model estimates are not official forecasts — follow the National Hurricane Center.")
 

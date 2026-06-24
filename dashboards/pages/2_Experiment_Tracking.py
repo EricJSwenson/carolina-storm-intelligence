@@ -19,7 +19,7 @@ WAREHOUSE = ROOT / "data" / "warehouse.duckdb"
 MLRUNS = ROOT / "data" / "mlruns" / "local_runs.jsonl"
 
 st.set_page_config(page_title="Experiment Tracking", page_icon="🧪", layout="wide")
-st.title("🧪 Experiment Tracking")
+st.title("Experiment Tracking")
 st.caption("Each run logs params (prompt, retrieval, embedding, chunk size) and metrics. "
            "Compare configurations and watch performance move.")
 

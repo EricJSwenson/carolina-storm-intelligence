@@ -5,7 +5,7 @@
 The thesis: don't grade AI answers on vibes. Grade them against **verified ground truth**. This platform answers hurricane questions with a RAG system, then checks every answer against the **HURDAT2** best-track record — so a hallucination is a *measurable factual error*, not another model's opinion.
 
 🔗 **Live weather map:** https://ericjswenson.github.io/carolina-storm-intelligence/
-🔗 **Evaluation + Storm Center console:** `<your-streamlit-url>` *(deploy on Streamlit Community Cloud — see [Deploy](#deploy))*
+🔗 **Evaluation + Storm Center console:** https://carolina-storm-intelligence.streamlit.app/
 💻 **Code:** https://github.com/EricjSwenson/carolina-storm-intelligence
 
 > Runs fully offline with no API keys (deterministic embedder, mock LLMs, synthetic data, DuckDB). The PySpark / dbt / MLflow / Databricks path carries the production story.
