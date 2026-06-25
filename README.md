@@ -55,19 +55,14 @@ Build the static weather map (auto-downloads the full HURDAT2 record, falls back
 python scripts/build_weather_page.py
 ```
 
-## Deploy
-
-**Streamlit Community Cloud** (free): push to GitHub, go to share.streamlit.io → **New app** → pick this repo, branch `main`, main file `dashboards/Home.py`, Python 3.11 → **Deploy**. The app self-populates its warehouse on first run; no secrets needed.
-
-**GitHub Pages** (the map): Settings → Pages → Source = **GitHub Actions**. The workflow rebuilds the page on every push.
 
 ## How the evaluation works
 
-The model's answers are checked against structured HURDAT2 facts (landfall category, position, intensity), not against another LLM's judgment. A teaching example from `make demo`: a naive generator and a grounded generator can both score ~1.0 on embedding-similarity groundedness, yet the structured ground-truth check still catches the naive one's fabricated category — which is the entire point. See [docs/evaluation_methodology.md](docs/evaluation_methodology.md).
+The model's answers are checked against structured HURDAT2 facts (landfall category, position, intensity), not against another LLM's judgment. A naive generator and a grounded generator can both score ~1.0 on embedding-similarity groundedness, yet the structured ground-truth check still catches the naive one's fabricated category — which is the entire point. See [docs/evaluation_methodology.md](docs/evaluation_methodology.md).
 
 ## Architecture & docs
 
-[Architecture](docs/architecture.md) · [Data sources](docs/data_sources.md) · [Evaluation methodology](docs/evaluation_methodology.md) · [Live data plan](docs/live_data_plan.md) · [Deployment](docs/deployment.md) · [Interview guide](docs/interview_guide.md)
+[Architecture](docs/architecture.md) · [Data sources](docs/data_sources.md) · [Evaluation methodology](docs/evaluation_methodology.md) · [Live data plan](docs/live_data_plan.md) · [Deployment](docs/deployment.md) 
 
 ## Notes
 
