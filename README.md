@@ -1,4 +1,4 @@
-# 🌀 Carolina Storm Intelligence
+# Carolina Storm Intelligence
 
 **An AI weather-intelligence platform built on 175 years of NOAA hurricane data — with a trustworthy LLM evaluation system at its core.**
 
