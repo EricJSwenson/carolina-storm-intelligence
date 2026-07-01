@@ -1,5 +1,18 @@
 {
-  "fetched_at": "2026-07-01T03:28:46.898773+00:00",
-  "active_storm_count": 0,
-  "storms": []
+  "fetched_at": "2026-07-01T09:39:41.728441+00:00",
+  "active_storm_count": 1,
+  "storms": [
+    {
+      "id": "ep042026",
+      "name": "Four-E",
+      "classification": "TD",
+      "intensity_kt": 30,
+      "lat": 14.5,
+      "lon": -126.9,
+      "movement": "345 7 kt",
+      "pressure_mb": 1005,
+      "advisory_url": "https://www.nhc.noaa.gov/text/MIATCPEP4.shtml",
+      "track": []
+    }
+  ]
 }
