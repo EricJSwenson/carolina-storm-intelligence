@@ -1,16 +1,16 @@
 {
-  "fetched_at": "2026-07-01T19:49:06.136459+00:00",
+  "fetched_at": "2026-07-02T02:54:03.914934+00:00",
   "active_storm_count": 1,
   "storms": [
     {
       "id": "ep042026",
-      "name": "Four-E",
-      "classification": "TD",
-      "intensity_kt": 30,
-      "lat": 14.8,
-      "lon": -126.7,
-      "movement": "355 6 kt",
-      "pressure_mb": 1005,
+      "name": "Douglas",
+      "classification": "TS",
+      "intensity_kt": 35,
+      "lat": 16.5,
+      "lon": -127.0,
+      "movement": "355 7 kt",
+      "pressure_mb": 1003,
       "advisory_url": "https://www.nhc.noaa.gov/text/MIATCPEP4.shtml",
       "track": []
     }
