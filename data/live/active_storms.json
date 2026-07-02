@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-07-02T02:54:03.914934+00:00",
+  "fetched_at": "2026-07-02T08:50:55.656761+00:00",
   "active_storm_count": 1,
   "storms": [
     {
@@ -7,9 +7,9 @@
       "name": "Douglas",
       "classification": "TS",
       "intensity_kt": 35,
-      "lat": 16.5,
-      "lon": -127.0,
-      "movement": "355 7 kt",
+      "lat": 17.0,
+      "lon": -127.1,
+      "movement": "350 7 kt",
       "pressure_mb": 1003,
       "advisory_url": "https://www.nhc.noaa.gov/text/MIATCPEP4.shtml",
       "track": []
